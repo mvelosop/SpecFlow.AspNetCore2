@@ -83,6 +83,60 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Given("we are working with tenant \"1.1 - Add budget classes\" which has no data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table1.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table1.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table1.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+            table1.AddRow(new string[] {
+                        "Transportation",
+                        "4",
+                        "Expense"});
+            table1.AddRow(new string[] {
+                        "Entertainment",
+                        "5",
+                        "Expense"});
+#line 10
+ testRunner.When("I add budget classes:", ((string)(null)), table1, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table2.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table2.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table2.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+            table2.AddRow(new string[] {
+                        "Transportation",
+                        "4",
+                        "Expense"});
+            table2.AddRow(new string[] {
+                        "Entertainment",
+                        "5",
+                        "Expense"});
+#line 18
+ testRunner.Then("I can get the following budget classes", ((string)(null)), table2, "Then ");
+#line hidden
             this.ScenarioCleanup();
         }
         

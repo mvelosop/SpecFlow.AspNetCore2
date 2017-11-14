@@ -1,11 +1,15 @@
 ﻿using Autofac;
+using DFlow.Budget.App;
 using DFlow.Budget.App.Features;
 using DFlow.Budget.Core.Model;
 using FluentAssertions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace DFlow.Budget.Specs.Bindings
 {
@@ -27,36 +31,59 @@ namespace DFlow.Budget.Specs.Bindings
         {
             List<ValidationResult> errors;
 
-            var features = Resolve<TenantFeatures>();
+            var tenantFeatures = Resolve<TenantFeatures>();
 
-            Tenant tenant = await features.FindTenantByNameAsync(name);
+            Tenant tenant = await tenantFeatures.FindTenantByNameAsync(name);
 
             if (tenant != null)
             {
-                errors = await features.RemoveTenantAsync(tenant);
+                var appFeatures = Resolve<AppFeatures>();
+
+                errors = await appFeatures.PurgeTenantAsync(tenant);
                 errors.Should().BeEmpty();
             }
 
             tenant = new Tenant { Name = name };
-            errors = await features.AddTenantAsync(tenant);
+            errors = await tenantFeatures.AddTenantAsync(tenant);
             errors.Should().BeEmpty();
+
+            var sessionContext = new SessionContext(tenant);
+
+            _scenarioContext.Set(sessionContext, nameof(SessionContext));
         }
 
-        [Then(@"I can view the following budget classes;")]
-        public void ThenICanViewTheFollowingBudgetClasses(Table table)
+        [Then(@"I can get the following budget classes")]
+        public async Task ThenICanGetTheFollowingBudgetClasses(Table table)
         {
-            ScenarioContext.Current.Pending();
+            var features = Resolve<BudgetClassFeatures>();
+
+            var budgetClassList = await features.QueryBudgetClasses().ToListAsync();
+
+            table.CompareToSet(budgetClassList);
         }
 
         [When(@"I add budget classes:")]
-        public void WhenIAddBudgetClasses(Table table)
+        public async Task WhenIAddBudgetClasses(Table table)
         {
-            ScenarioContext.Current.Pending();
+            var features = Resolve<BudgetClassFeatures>();
+
+            List<BudgetClass> budgetClassList = table.CreateSet<BudgetClass>().ToList();
+
+            foreach (BudgetClass budgetClass in budgetClassList)
+            {
+                var errors = await features.AddBudgetClassAsync(budgetClass);
+                errors.Should().BeEmpty();
+            }
+        }
+
+        private ILifetimeScope GetScope()
+        {
+            return _scenarioContext.Get<ILifetimeScope>(nameof(BudgetHooks.Scope));
         }
 
         private T Resolve<T>()
         {
-            return _scenarioContext.Get<ILifetimeScope>(nameof(BudgetHooks.Scope)).Resolve<T>();
+            return GetScope().Resolve<T>();
         }
     }
 }

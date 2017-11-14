@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DFlow.Budget.App.Features
@@ -39,19 +38,10 @@ namespace DFlow.Budget.App.Features
 
         public async Task<List<ValidationResult>> RemoveTenantAsync(Tenant tenant)
         {
-            var errors = await ResetTenantAsync(tenant);
-
-            if (errors.Any()) return errors;
-
             DbContext.Remove(tenant);
 
             await DbContext.SaveChangesAsync();
 
-            return NoErrors;
-        }
-
-        public async Task<List<ValidationResult>> ResetTenantAsync(Tenant tenant)
-        {
             return NoErrors;
         }
     }

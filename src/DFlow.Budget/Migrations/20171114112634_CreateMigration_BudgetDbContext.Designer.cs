@@ -12,7 +12,7 @@ using System;
 namespace DFlow.Budget.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    [Migration("20171113220213_CreateMigration_BudgetDbContext")]
+    [Migration("20171114112634_CreateMigration_BudgetDbContext")]
     partial class CreateMigration_BudgetDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,7 @@ namespace DFlow.Budget.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(250);
 
                     b.Property<byte[]>("RowVersion")
@@ -93,8 +94,7 @@ namespace DFlow.Budget.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Tenants","Tenants");
                 });

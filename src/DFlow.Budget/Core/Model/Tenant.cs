@@ -13,17 +13,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DFlow.Budget.Core.Model
 {
-	public class Tenant
-	{
-		public Tenant()
-		{
-		}
+    public class Tenant
+    {
+        public Tenant()
+        {
+        }
 
-		public int Id { get; set; }
+        public int Id { get; set; }
 
-		[MaxLength(250)] // Default string length
-		public virtual string Name { get; set; } // Key data ----------
+        [Required]
+        [MaxLength(250)] // Default string length
+        public virtual string Name { get; set; } // Key data ----------
 
-		public virtual Byte[] RowVersion { get; set; }
-	}
+        public virtual Byte[] RowVersion { get; set; }
+    }
 }

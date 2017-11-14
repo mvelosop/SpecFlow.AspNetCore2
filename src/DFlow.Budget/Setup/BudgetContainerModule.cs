@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using DFlow.Budget.App.Features;
-using DFlow.Budget.Data.Services;
 
 namespace DFlow.Budget.Setup
 {
@@ -22,7 +21,10 @@ namespace DFlow.Budget.Setup
             builder.RegisterType<TenantFeatures>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<BudgetFeatures>()
+            builder.RegisterType<BudgetClassFeatures>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<AppFeatures>()
                 .InstancePerLifetimeScope();
         }
     }

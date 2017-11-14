@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DFlow.Budget.App;
 using DFlow.Budget.Setup;
 using Microsoft.Extensions.DependencyInjection;
 using TechTalk.SpecFlow;
@@ -94,7 +96,21 @@ namespace DFlow.Budget.Specs.Bindings
 
         private ILifetimeScope GetLifetimeScope()
         {
-            return _scenarioContext.Get<IContainer>(nameof(Container)).BeginLifetimeScope();
+            return _scenarioContext.Get<IContainer>(nameof(Container))
+                .BeginLifetimeScope(builder =>
+                {
+                    builder.Register(c => GetSessionContext());
+                });
+        }
+
+        private SessionContext GetSessionContext()
+        {
+            if (_scenarioContext.TryGetValue(nameof(SessionContext), out SessionContext sessionContext))
+            {
+                return sessionContext;
+            }
+
+            throw new InvalidOperationException($"{nameof(SessionContext)} not set!");
         }
     }
 }
