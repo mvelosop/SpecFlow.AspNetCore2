@@ -12,17 +12,11 @@ using DFlow.Budget.Core.Model;
 using DFlow.Budget.Data.Config;
 using Domion.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DFlow.Budget.Data.Services
 {
     public class BudgetDbContext : DbContext
     {
-        public BudgetDbContext()
-            : base()
-        {
-        }
-
         public BudgetDbContext(DbContextOptions<BudgetDbContext> options)
             : base(options)
         {
@@ -31,18 +25,6 @@ namespace DFlow.Budget.Data.Services
         public virtual DbSet<BudgetClass> BudgetClasses { get; set; }
 
         public virtual DbSet<Tenant> Tenants { get; set; }
-
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
 
         ///
         /// <param name="modelBuilder"></param>

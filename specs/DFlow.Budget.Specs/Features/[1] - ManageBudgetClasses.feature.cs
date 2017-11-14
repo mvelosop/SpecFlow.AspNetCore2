@@ -135,7 +135,7 @@ this.ScenarioSetup(scenarioInfo);
                         "5",
                         "Expense"});
 #line 18
-    testRunner.Then("I can get the following budget classes", ((string)(null)), table2, "Then ");
+    testRunner.Then("I get the following budget classes", ((string)(null)), table2, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -246,7 +246,7 @@ this.ScenarioSetup(scenarioInfo);
                         "3",
                         "Investment"});
 #line 56
-    testRunner.Then("I can get the following budget classes", ((string)(null)), table7, "Then ");
+    testRunner.Then("I get the following budget classes", ((string)(null)), table7, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -301,7 +301,7 @@ this.ScenarioSetup(scenarioInfo);
                         "3",
                         "Expense"});
 #line 76
-    testRunner.Then("I can get the following budget classes", ((string)(null)), table10, "Then ");
+    testRunner.Then("I get the following budget classes", ((string)(null)), table10, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

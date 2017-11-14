@@ -15,7 +15,7 @@ Scenario: Scenario - 1.1 - Add budget classes
         | Transportation | 4         | Expense         |
         | Entertainment  | 5         | Expense         |
 
-    Then I can get the following budget classes
+    Then I get the following budget classes
         | Name           | SortOrder | TransactionType |
         | Income         | 1         | Income          |
         | Housing        | 2         | Expense         |
@@ -53,7 +53,7 @@ Scenario: Scenario - 1.3 - Modify budget classes
         | Housing  | Housing - Update SortOrder | 3         | Expense         |
         | Food     | Food - Update Type         | 3         | Investment      |
 
-    Then I can get the following budget classes
+    Then I get the following budget classes
         | Name                       | SortOrder | TransactionType |
         | Income - Updated           | 1         | Income          |
         | Housing - Update SortOrder | 3         | Expense         |
@@ -73,7 +73,7 @@ Scenario: Scenario - 1.4 - Remove budget classes
         | FindName |
         | Housing  |
 
-    Then I can get the following budget classes
+    Then I get the following budget classes
         | Name   | SortOrder | TransactionType |
         | Income | 1         | Income          |
         | Food   | 3         | Expense         |

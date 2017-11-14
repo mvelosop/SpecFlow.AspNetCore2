@@ -42,8 +42,8 @@ namespace DFlow.Budget.Specs.Bindings
             await ArrangeScenarioTenantContext(name);
         }
 
-        [Then(@"I can get the following budget classes")]
-        public async Task ThenICanGetTheFollowingBudgetClasses(Table table)
+        [Then(@"I get the following budget classes")]
+        public async Task ThenIGetTheFollowingBudgetClasses(Table table)
         {
             var features = Resolve<BudgetClassFeatures>();
 
