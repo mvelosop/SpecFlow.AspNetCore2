@@ -219,6 +219,8 @@
       <DependentUpon>[1] - ManageBudgetClasses.feature</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BudgetClassData.cs" />
+    <Compile Include="Helpers\BudgetItemData.cs" />
+    <Compile Include="Helpers\BudgetItemDataMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

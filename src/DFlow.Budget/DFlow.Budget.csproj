@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\Domion.Lib\Domion.Lib.csproj" />
     <ProjectReference Include="..\..\lib\Domion\Domion.csproj" />
   </ItemGroup>
 

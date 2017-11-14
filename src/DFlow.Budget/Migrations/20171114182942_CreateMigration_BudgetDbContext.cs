@@ -56,7 +56,7 @@ namespace DFlow.Budget.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BudgetLines",
+                name: "BudgetItems",
                 schema: "Budget",
                 columns: table => new
                 {
@@ -65,14 +65,14 @@ namespace DFlow.Budget.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     BudgetClass_Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Order = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    SortOrder = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BudgetLines", x => x.Id);
+                    table.PrimaryKey("PK_BudgetItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BudgetLines_BudgetClasses_BudgetClass_Id",
+                        name: "FK_BudgetItems_BudgetClasses_BudgetClass_Id",
                         column: x => x.BudgetClass_Id,
                         principalSchema: "Budget",
                         principalTable: "BudgetClasses",
@@ -88,15 +88,15 @@ namespace DFlow.Budget.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BudgetLines_BudgetClass_Id",
+                name: "IX_BudgetItems_BudgetClass_Id",
                 schema: "Budget",
-                table: "BudgetLines",
+                table: "BudgetItems",
                 column: "BudgetClass_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BudgetLines_Name",
+                name: "IX_BudgetItems_Name",
                 schema: "Budget",
-                table: "BudgetLines",
+                table: "BudgetItems",
                 column: "Name",
                 unique: true);
 
@@ -111,7 +111,7 @@ namespace DFlow.Budget.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BudgetLines",
+                name: "BudgetItems",
                 schema: "Budget");
 
             migrationBuilder.DropTable(

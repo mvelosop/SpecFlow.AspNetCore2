@@ -12,8 +12,8 @@ using System;
 namespace DFlow.Budget.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    [Migration("20171114112634_CreateMigration_BudgetDbContext")]
-    partial class CreateMigration_BudgetDbContext
+    [Migration("20171114210943_BaseAmountsMigration_BudgetDbContext")]
+    partial class BaseAmountsMigration_BudgetDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,8 @@ namespace DFlow.Budget.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("BaseTotal");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -49,12 +51,12 @@ namespace DFlow.Budget.Migrations
                     b.ToTable("BudgetClasses","Budget");
                 });
 
-            modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetLine", b =>
+            modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("BaseAmount");
 
                     b.Property<int>("BudgetClass_Id");
 
@@ -62,11 +64,13 @@ namespace DFlow.Budget.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("Order");
+                    b.Property<decimal>("Percent");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("SortOrder");
 
                     b.HasKey("Id");
 
@@ -75,7 +79,7 @@ namespace DFlow.Budget.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("BudgetLines","Budget");
+                    b.ToTable("BudgetItems","Budget");
                 });
 
             modelBuilder.Entity("DFlow.Budget.Core.Model.Tenant", b =>
@@ -107,10 +111,10 @@ namespace DFlow.Budget.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetLine", b =>
+            modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetItem", b =>
                 {
                     b.HasOne("DFlow.Budget.Core.Model.BudgetClass", "BudgetClass")
-                        .WithMany("BudgetLines")
+                        .WithMany("BudgetItems")
                         .HasForeignKey("BudgetClass_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

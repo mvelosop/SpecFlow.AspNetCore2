@@ -42,16 +42,6 @@ namespace DFlow.Budget.Specs.Bindings
             await ArrangeScenarioTenantContext(name);
         }
 
-        [Then(@"I get the following budget classes")]
-        public async Task ThenIGetTheFollowingBudgetClasses(Table table)
-        {
-            var features = Resolve<BudgetClassFeatures>();
-
-            var budgetClassList = await features.QueryBudgetClasses().ToListAsync();
-
-            table.CompareToSet(budgetClassList);
-        }
-
         [Then(@"I can't duplicate budget class names:")]
         public async Task ThenICanTDuplicateBudgetClassNames(Table table)
         {
@@ -66,6 +56,26 @@ namespace DFlow.Budget.Specs.Bindings
             }
         }
 
+        [Then(@"I get the following budget classes")]
+        public async Task ThenIGetTheFollowingBudgetClasses(Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            var budgetClassList = await features.QueryBudgetClasses().ToListAsync();
+
+            table.CompareToSet(budgetClassList);
+        }
+
+        [Then(@"I get the following budget items for class ""(.*)"":")]
+        public async Task ThenIGetTheFollowingBudgetItemsForClass(string name, Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            BudgetClass entity = await features.FindBudgetClassByNameAsync(name);
+
+            table.CompareToSet(entity.BudgetItems);
+        }
+
         [When(@"I add budget classes:")]
         [Given(@"I've added budget classes:")]
         public async Task WhenIAddBudgetClasses(Table table)
@@ -77,6 +87,29 @@ namespace DFlow.Budget.Specs.Bindings
             foreach (BudgetClass budgetClass in entityList)
             {
                 var errors = await features.AddBudgetClassAsync(budgetClass);
+                errors.Should().BeEmpty();
+            }
+        }
+
+        [When(@"I add the following budget items:")]
+        public async Task WhenIAddTheFollowingBudgetItems(Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            var dataSet = table.CreateSet<BudgetItemData>();
+
+            foreach (var group in dataSet.GroupBy(bid => bid.BudgetClass))
+            {
+                var budgetClass = await features.FindBudgetClassByNameAsync(group.Key);
+
+                budgetClass.Should().NotBeNull($@"because BudgetClass ""{group.Key}"" MUST exist");
+
+                var mapper = new BudgetItemDataMapper();
+
+                var items = group.Select(bid => mapper.CreateEntity(bid));
+
+                var errors = await features.AddBudgetItemsRangeAsync(budgetClass, items);
+
                 errors.Should().BeEmpty();
             }
         }

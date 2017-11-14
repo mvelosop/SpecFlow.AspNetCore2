@@ -44,9 +44,27 @@ namespace DFlow.Budget.App.Features
             return NoError;
         }
 
+        public async Task<List<ValidationResult>> AddBudgetItemsRangeAsync(BudgetClass budgetClass, IEnumerable<BudgetItem> items)
+        {
+            foreach (BudgetItem item in items)
+            {
+                budgetClass.BudgetItems.Add(item);
+            }
+
+            budgetClass.Calculate();
+
+            DbContext.Update(budgetClass);
+
+            await DbContext.SaveChangesAsync();
+
+            return NoError;
+        }
+
         public async Task<BudgetClass> FindBudgetClassByNameAsync(string name)
         {
-            return await QueryBudgetClasses(bc => bc.Name == name).FirstOrDefaultAsync();
+            return await QueryBudgetClasses(bc => bc.Name == name)
+                .Include(bc => bc.BudgetItems)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<ValidationResult>> ModifyBudgetClassAsync(BudgetClass entity)

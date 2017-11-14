@@ -257,9 +257,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void Scenario_1_4_RemoveBudgetClasses()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.4 - Remove budget classes", ((string[])(null)));
-#line 62
+#line 63
 this.ScenarioSetup(scenarioInfo);
-#line 64
+#line 65
     testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
@@ -278,14 +278,14 @@ this.ScenarioSetup(scenarioInfo);
                         "Food",
                         "3",
                         "Expense"});
-#line 66
+#line 67
     testRunner.And("I\'ve added budget classes:", ((string)(null)), table8, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "FindName"});
             table9.AddRow(new string[] {
                         "Housing"});
-#line 72
+#line 73
     testRunner.When("I delete the original budget classes:", ((string)(null)), table9, "When ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
@@ -300,8 +300,102 @@ this.ScenarioSetup(scenarioInfo);
                         "Food",
                         "3",
                         "Expense"});
-#line 76
+#line 77
     testRunner.Then("I get the following budget classes", ((string)(null)), table10, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.5 - Add budget items")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.5 - Add budget items")]
+        public virtual void Scenario_1_5_AddBudgetItems()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.5 - Add budget items", ((string[])(null)));
+#line 82
+this.ScenarioSetup(scenarioInfo);
+#line 84
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table11.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table11.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table11.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 86
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table11, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "BudgetClass",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table12.AddRow(new string[] {
+                        "Income",
+                        "Job",
+                        "1",
+                        "3000"});
+            table12.AddRow(new string[] {
+                        "Housing",
+                        "Rent",
+                        "1",
+                        "1000"});
+            table12.AddRow(new string[] {
+                        "Housing",
+                        "Phone",
+                        "2",
+                        "62"});
+            table12.AddRow(new string[] {
+                        "Housing",
+                        "Electricity",
+                        "3",
+                        "44"});
+            table12.AddRow(new string[] {
+                        "Housing",
+                        "Water",
+                        "4",
+                        "8"});
+#line 92
+    testRunner.When("I add the following budget items:", ((string)(null)), table12, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount",
+                        "Percent"});
+            table13.AddRow(new string[] {
+                        "Rent",
+                        "1",
+                        "1000",
+                        "89,77"});
+            table13.AddRow(new string[] {
+                        "Phone",
+                        "2",
+                        "62",
+                        "5,57"});
+            table13.AddRow(new string[] {
+                        "Electricity",
+                        "3",
+                        "44",
+                        "3,95"});
+            table13.AddRow(new string[] {
+                        "Water",
+                        "4",
+                        "8",
+                        "0,72"});
+#line 100
+    testRunner.Then("I get the following budget items for class \"Housing\":", ((string)(null)), table13, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

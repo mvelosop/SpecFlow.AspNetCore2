@@ -12,9 +12,10 @@ using System;
 namespace DFlow.Budget.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    partial class BudgetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171114182942_CreateMigration_BudgetDbContext")]
+    partial class CreateMigration_BudgetDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +26,6 @@ namespace DFlow.Budget.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("BaseTotal");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -55,15 +54,13 @@ namespace DFlow.Budget.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("BaseAmount");
+                    b.Property<decimal>("Amount");
 
                     b.Property<int>("BudgetClass_Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<decimal>("Percent");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

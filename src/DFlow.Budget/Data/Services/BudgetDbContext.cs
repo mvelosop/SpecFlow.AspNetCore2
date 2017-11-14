@@ -49,7 +49,7 @@ namespace DFlow.Budget.Data.Services
             // Database schema is "Budget"
 
             modelBuilder.AddConfiguration(new BudgetClassConfiguration());
-            modelBuilder.AddConfiguration(new BudgetLineConfiguration());
+            modelBuilder.AddConfiguration(new BudgetItemConfiguration());
         }
     }
 }

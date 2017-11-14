@@ -15,11 +15,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DFlow.Budget.Data.Config
 {
-    public class BudgetLineConfiguration : EntityTypeConfiguration<BudgetLine>
+    public class BudgetItemConfiguration : EntityTypeConfiguration<BudgetItem>
     {
-        public override void Map(EntityTypeBuilder<BudgetLine> builder)
+        public override void Map(EntityTypeBuilder<BudgetItem> builder)
         {
-            builder.ToTable("BudgetLines", schema: "Budget");
+            builder.ToTable("BudgetItems", schema: "Budget");
 
             builder.HasKey(bl => bl.Id);
 
@@ -27,7 +27,7 @@ namespace DFlow.Budget.Data.Config
                 .IsRowVersion();
 
             builder.HasOne<BudgetClass>(bl => bl.BudgetClass)
-                .WithMany(bc => bc.BudgetLines)
+                .WithMany(bc => bc.BudgetItems)
                 .HasForeignKey(bl => bl.BudgetClass_Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
