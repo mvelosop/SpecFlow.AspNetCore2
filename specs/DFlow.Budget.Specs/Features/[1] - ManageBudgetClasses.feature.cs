@@ -251,6 +251,61 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.4 - Remove budget classes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.4 - Remove budget classes")]
+        public virtual void Scenario_1_4_RemoveBudgetClasses()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.4 - Remove budget classes", ((string[])(null)));
+#line 62
+this.ScenarioSetup(scenarioInfo);
+#line 64
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table8.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table8.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table8.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 66
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table8, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FindName"});
+            table9.AddRow(new string[] {
+                        "Housing"});
+#line 72
+    testRunner.When("I delete the original budget classes:", ((string)(null)), table9, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table10.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table10.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 76
+    testRunner.Then("I can get the following budget classes", ((string)(null)), table10, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.2.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

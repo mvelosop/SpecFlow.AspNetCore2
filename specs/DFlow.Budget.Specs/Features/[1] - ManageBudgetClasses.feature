@@ -58,3 +58,22 @@ Scenario: Scenario - 1.3 - Modify budget classes
         | Income - Updated           | 1         | Income          |
         | Housing - Update SortOrder | 3         | Expense         |
         | Food - Update Type         | 3         | Investment      |
+
+Scenario: Scenario - 1.4 - Remove budget classes
+
+    Given we are working with a new scenario tenant context
+
+    And I've added budget classes:
+        | Name           | SortOrder | TransactionType |
+        | Income         | 1         | Income          |
+        | Housing        | 2         | Expense         |
+        | Food           | 3         | Expense         |
+
+    When I delete the original budget classes:
+        | FindName |
+        | Housing  |
+
+    Then I can get the following budget classes
+        | Name   | SortOrder | TransactionType |
+        | Income | 1         | Income          |
+        | Food   | 3         | Expense         |

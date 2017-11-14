@@ -71,6 +71,15 @@ namespace DFlow.Budget.App.Features
             return query;
         }
 
+        public async Task<List<ValidationResult>> RemoveBudgetClassAsync(BudgetClass entity)
+        {
+            DbContext.Remove(entity);
+
+            await DbContext.SaveChangesAsync();
+
+            return NoError;
+        }
+
         private List<ValidationResult> Error(string message, params object[] values)
         {
             return new List<ValidationResult> { new ValidationResult(string.Format(message, values)) };
