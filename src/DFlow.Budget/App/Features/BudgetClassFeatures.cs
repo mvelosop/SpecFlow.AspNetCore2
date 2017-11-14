@@ -12,9 +12,8 @@ namespace DFlow.Budget.App.Features
 {
     public class BudgetClassFeatures
     {
-        private readonly Lazy<BudgetDbContext> _lazyDbContext;
-
         public static readonly string DuplicateByNameError = @"There's another BudgetClass with Name ""{0}"", can't duplicate! (Id={1})";
+        private readonly Lazy<BudgetDbContext> _lazyDbContext;
 
         public BudgetClassFeatures(
             SessionContext sessionContext,
@@ -39,6 +38,20 @@ namespace DFlow.Budget.App.Features
             if (errors.Any()) return errors;
 
             DbContext.Add(entity);
+
+            await DbContext.SaveChangesAsync();
+
+            return NoError;
+        }
+
+        public async Task<BudgetClass> FindBudgetClassByNameAsync(string name)
+        {
+            return await QueryBudgetClasses(bc => bc.Name == name).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<ValidationResult>> ModifyBudgetClassAsync(BudgetClass entity)
+        {
+            DbContext.Entry(entity).State = EntityState.Modified;
 
             await DbContext.SaveChangesAsync();
 

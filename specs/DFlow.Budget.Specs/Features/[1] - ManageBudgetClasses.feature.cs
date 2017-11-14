@@ -81,8 +81,7 @@ namespace DFlow.Budget.Specs.Features
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 8
-    testRunner.Given("we are working with tenant \"Scenario - 1.1 - Add budget classes\" which has no dat" +
-                    "a", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Name",
@@ -173,6 +172,81 @@ this.ScenarioSetup(scenarioInfo);
                         "Expense"});
 #line 35
     testRunner.Then("I can\'t duplicate budget class names:", ((string)(null)), table4, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.3 - Modify budget classes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.3 - Modify budget classes")]
+        public virtual void Scenario_1_3_ModifyBudgetClasses()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.3 - Modify budget classes", ((string[])(null)));
+#line 40
+this.ScenarioSetup(scenarioInfo);
+#line 42
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table5.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table5.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table5.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 44
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table5, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FindName",
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table6.AddRow(new string[] {
+                        "Income",
+                        "Income - Updated",
+                        "1",
+                        "Income"});
+            table6.AddRow(new string[] {
+                        "Housing",
+                        "Housing - Update SortOrder",
+                        "3",
+                        "Expense"});
+            table6.AddRow(new string[] {
+                        "Food",
+                        "Food - Update Type",
+                        "3",
+                        "Investment"});
+#line 50
+    testRunner.When("I modify the original budget classes:", ((string)(null)), table6, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table7.AddRow(new string[] {
+                        "Income - Updated",
+                        "1",
+                        "Income"});
+            table7.AddRow(new string[] {
+                        "Housing - Update SortOrder",
+                        "3",
+                        "Expense"});
+            table7.AddRow(new string[] {
+                        "Food - Update Type",
+                        "3",
+                        "Investment"});
+#line 56
+    testRunner.Then("I can get the following budget classes", ((string)(null)), table7, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

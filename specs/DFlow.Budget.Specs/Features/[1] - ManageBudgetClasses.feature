@@ -5,7 +5,7 @@
 
 Scenario: Scenario - 1.1 - Add budget classes
 
-    Given we are working with tenant "Scenario - 1.1 - Add budget classes" which has no data
+    Given we are working with a new scenario tenant context
 
     When I add budget classes:
         | Name           | SortOrder | TransactionType |
@@ -36,3 +36,25 @@ Scenario: Scenario - 1.2 - Avoid duplicate name in budget classes
         | Name           | SortOrder | TransactionType |
         | Income         | 2         | Expense         |
 
+
+Scenario: Scenario - 1.3 - Modify budget classes
+
+    Given we are working with a new scenario tenant context
+
+    And I've added budget classes:
+        | Name           | SortOrder | TransactionType |
+        | Income         | 1         | Income          |
+        | Housing        | 2         | Expense         |
+        | Food           | 3         | Expense         |
+
+    When I modify the original budget classes:
+        | FindName | Name                       | SortOrder | TransactionType |
+        | Income   | Income - Updated           | 1         | Income          |
+        | Housing  | Housing - Update SortOrder | 3         | Expense         |
+        | Food     | Food - Update Type         | 3         | Investment      |
+
+    Then I can get the following budget classes
+        | Name                       | SortOrder | TransactionType |
+        | Income - Updated           | 1         | Income          |
+        | Housing - Update SortOrder | 3         | Expense         |
+        | Food - Update Type         | 3         | Investment      |

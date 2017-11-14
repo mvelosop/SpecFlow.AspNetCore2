@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DFlow.Budget.Specs.Helpers;
 using Domion.Testing.Assertions;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -27,14 +28,36 @@ namespace DFlow.Budget.Specs.Bindings
             _scenarioContext = scenarioContext;
         }
 
+        [When(@"I modify the original budget classes:")]
+        public async Task WhenIModifyTheOriginalBudgetClassesAsync(Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            List<BudgetClassData> dataList = table.CreateSet<BudgetClassData>().ToList();
+
+            foreach (BudgetClassData data in dataList)
+            {
+                var entity = await features.FindBudgetClassByNameAsync(data.FindName);
+
+                entity.Name = data.Name;
+                entity.SortOrder = data.SortOrder;
+                entity.TransactionType = data.TransactionType;
+
+                var errors = await features.ModifyBudgetClassAsync(entity);
+
+                errors.Should().BeEmpty();
+            }
+        }
+
+
         [Then(@"I can't duplicate budget class names:")]
         public async Task ThenICanTDuplicateBudgetClassNames(Table table)
         {
             var features = Resolve<BudgetClassFeatures>();
 
-            List<BudgetClass> budgetClassList = table.CreateSet<BudgetClass>().ToList();
+            List<BudgetClass> entityList = table.CreateSet<BudgetClass>().ToList();
 
-            foreach (BudgetClass budgetClass in budgetClassList)
+            foreach (BudgetClass budgetClass in entityList)
             {
                 var errors = await features.AddBudgetClassAsync(budgetClass);
                 errors.Should().ContainErrorMessage(BudgetClassFeatures.DuplicateByNameError);
@@ -71,9 +94,9 @@ namespace DFlow.Budget.Specs.Bindings
         {
             var features = Resolve<BudgetClassFeatures>();
 
-            List<BudgetClass> budgetClassList = table.CreateSet<BudgetClass>().ToList();
+            List<BudgetClass> entityList = table.CreateSet<BudgetClass>().ToList();
 
-            foreach (BudgetClass budgetClass in budgetClassList)
+            foreach (BudgetClass budgetClass in entityList)
             {
                 var errors = await features.AddBudgetClassAsync(budgetClass);
                 errors.Should().BeEmpty();

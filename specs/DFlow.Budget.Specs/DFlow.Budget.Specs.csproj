@@ -218,6 +218,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>[1] - ManageBudgetClasses.feature</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BudgetClassData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
