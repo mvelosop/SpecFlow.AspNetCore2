@@ -36,8 +36,8 @@ namespace DFlow.Budget.Specs.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Feature - 1 - ManageBudgetClasses", "\tAs a master user\r\n\tI need to manage budget classes\r\n\tTo keep control of my budge" +
-                    "t", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Feature - 1 - ManageBudgetClasses", "    As a master user\r\n    I need to manage budget classes\r\n    To keep control of" +
+                    " my budget", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -81,7 +81,8 @@ namespace DFlow.Budget.Specs.Features
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.Given("we are working with tenant \"1.1 - Add budget classes\" which has no data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("we are working with tenant \"Scenario - 1.1 - Add budget classes\" which has no dat" +
+                    "a", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Name",
@@ -108,7 +109,7 @@ this.ScenarioSetup(scenarioInfo);
                         "5",
                         "Expense"});
 #line 10
- testRunner.When("I add budget classes:", ((string)(null)), table1, "When ");
+    testRunner.When("I add budget classes:", ((string)(null)), table1, "When ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Name",
@@ -135,7 +136,43 @@ this.ScenarioSetup(scenarioInfo);
                         "5",
                         "Expense"});
 #line 18
- testRunner.Then("I can get the following budget classes", ((string)(null)), table2, "Then ");
+    testRunner.Then("I can get the following budget classes", ((string)(null)), table2, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.2 - Avoid duplicate name in budget classes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.2 - Avoid duplicate name in budget classes")]
+        public virtual void Scenario_1_2_AvoidDuplicateNameInBudgetClasses()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.2 - Avoid duplicate name in budget classes", ((string[])(null)));
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 29
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table3.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+#line 31
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table3, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table4.AddRow(new string[] {
+                        "Income",
+                        "2",
+                        "Expense"});
+#line 35
+    testRunner.Then("I can\'t duplicate budget class names:", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

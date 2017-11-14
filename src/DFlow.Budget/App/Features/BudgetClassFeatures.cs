@@ -14,6 +14,8 @@ namespace DFlow.Budget.App.Features
     {
         private readonly Lazy<BudgetDbContext> _lazyDbContext;
 
+        public static readonly string DuplicateByNameError = @"There's another BudgetClass with Name ""{0}"", can't duplicate! (Id={1})";
+
         public BudgetClassFeatures(
             SessionContext sessionContext,
             Lazy<BudgetDbContext> lazyDbContext)
@@ -45,17 +47,25 @@ namespace DFlow.Budget.App.Features
 
         public IQueryable<BudgetClass> QueryBudgetClasses(Expression<Func<BudgetClass, bool>> where = null)
         {
-            return where == null ? DbContext.BudgetClasses : DbContext.BudgetClasses.Where(where);
+            IQueryable<BudgetClass> query = DbContext.BudgetClasses
+                .Where(bc => bc.Tenant_Id == SessionContext.CurrentTenant.Id);
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            return query;
         }
 
-        private List<ValidationResult> Error(string message)
+        private List<ValidationResult> Error(string message, params object[] values)
         {
-            return new List<ValidationResult> { new ValidationResult(message) };
+            return new List<ValidationResult> { new ValidationResult(string.Format(message, values)) };
         }
 
         private async Task<BudgetClass> FindDuplicateByNameAsync(BudgetClass entity)
         {
-            IQueryable<BudgetClass> query = DbContext.BudgetClasses.Where(bc => bc.Name == entity.Name);
+            IQueryable<BudgetClass> query = QueryBudgetClasses(bc => bc.Name == entity.Name);
 
             if (entity.Id == 0)
             {
@@ -71,7 +81,7 @@ namespace DFlow.Budget.App.Features
 
             if (duplicateByName != null)
             {
-                return Error($@"There's another BudgetClass with Name ""{duplicateByName.Name}"" (Id={duplicateByName.Id})");
+                return Error(DuplicateByNameError, duplicateByName.Name, duplicateByName.Id);
             }
 
             return NoError;
