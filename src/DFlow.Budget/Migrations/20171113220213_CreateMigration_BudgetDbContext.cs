@@ -12,6 +12,24 @@ namespace DFlow.Budget.Migrations
             migrationBuilder.EnsureSchema(
                 name: "Budget");
 
+            migrationBuilder.EnsureSchema(
+                name: "Tenants");
+
+            migrationBuilder.CreateTable(
+                name: "Tenants",
+                schema: "Tenants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "BudgetClasses",
                 schema: "Budget",
@@ -20,13 +38,21 @@ namespace DFlow.Budget.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Order = table.Column<int>(type: "int", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Tenant_Id = table.Column<int>(type: "int", nullable: false),
                     TransactionType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BudgetClasses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BudgetClasses_Tenants_Tenant_Id",
+                        column: x => x.Tenant_Id,
+                        principalSchema: "Tenants",
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,10 +81,10 @@ namespace DFlow.Budget.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BudgetClasses_Name",
+                name: "IX_BudgetClasses_Tenant_Id_Name",
                 schema: "Budget",
                 table: "BudgetClasses",
-                column: "Name",
+                columns: new[] { "Tenant_Id", "Name" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -73,6 +99,14 @@ namespace DFlow.Budget.Migrations
                 table: "BudgetLines",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tenants_Name",
+                schema: "Tenants",
+                table: "Tenants",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -84,6 +118,10 @@ namespace DFlow.Budget.Migrations
             migrationBuilder.DropTable(
                 name: "BudgetClasses",
                 schema: "Budget");
+
+            migrationBuilder.DropTable(
+                name: "Tenants",
+                schema: "Tenants");
         }
     }
 }

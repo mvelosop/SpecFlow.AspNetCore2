@@ -12,7 +12,7 @@ using System;
 namespace DFlow.Budget.Migrations
 {
     [DbContext(typeof(BudgetDbContext))]
-    [Migration("20171113181020_CreateMigration_BudgetDbContext")]
+    [Migration("20171113220213_CreateMigration_BudgetDbContext")]
     partial class CreateMigration_BudgetDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,17 +31,19 @@ namespace DFlow.Budget.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("Order");
-
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int>("SortOrder");
+
+                    b.Property<int>("Tenant_Id");
 
                     b.Property<int>("TransactionType");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Tenant_Id", "Name")
                         .IsUnique();
 
                     b.ToTable("BudgetClasses","Budget");
@@ -74,6 +76,35 @@ namespace DFlow.Budget.Migrations
                         .IsUnique();
 
                     b.ToTable("BudgetLines","Budget");
+                });
+
+            modelBuilder.Entity("DFlow.Budget.Core.Model.Tenant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250);
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
+                    b.ToTable("Tenants","Tenants");
+                });
+
+            modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetClass", b =>
+                {
+                    b.HasOne("DFlow.Budget.Core.Model.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("Tenant_Id")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("DFlow.Budget.Core.Model.BudgetLine", b =>

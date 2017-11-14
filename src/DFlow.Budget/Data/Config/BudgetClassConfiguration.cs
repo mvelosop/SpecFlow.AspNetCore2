@@ -26,7 +26,16 @@ namespace DFlow.Budget.Data.Config
             builder.Property(bc => bc.RowVersion)
                 .IsRowVersion();
 
-            builder.HasIndex(bc => bc.Name)
+            // External entities
+
+            builder.HasOne<Tenant>(bc => bc.Tenant)
+                .WithMany()
+                .HasForeignKey(bc => bc.Tenant_Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Indexes
+
+            builder.HasIndex(bc => new { bc.Tenant_Id, bc.Name})
                 .IsUnique();
         }
     }

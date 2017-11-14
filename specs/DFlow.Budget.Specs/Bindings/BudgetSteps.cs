@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Autofac;
+using DFlow.Budget.App.Features;
+using DFlow.Budget.Core.Model;
+using FluentAssertions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace DFlow.Budget.Specs.Bindings
@@ -11,32 +14,49 @@ namespace DFlow.Budget.Specs.Bindings
     {
         // For additional details on SpecFlow step definitions see http://go.specflow.org/doc-stepdef
 
-        [Given("I have entered (.*) into the calculator")]
-        public void GivenIHaveEnteredSomethingIntoTheCalculator(int number)
-        {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see http://go.specflow.org/doc-sharingdata 
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
+        private readonly ScenarioContext _scenarioContext;
 
+        public BudgetSteps(
+            ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
+        [Given(@"we are working with tenant ""(.*)"" which has no data")]
+        public async Task GivenWeAreWorkingWithTenantWhichHasNoData(string name)
+        {
+            List<ValidationResult> errors;
+
+            var features = Resolve<TenantFeatures>();
+
+            Tenant tenant = await features.FindTenantByNameAsync(name);
+
+            if (tenant != null)
+            {
+                errors = await features.RemoveTenantAsync(tenant);
+                errors.Should().BeEmpty();
+            }
+
+            tenant = new Tenant { Name = name };
+            errors = await features.AddTenantAsync(tenant);
+            errors.Should().BeEmpty();
+        }
+
+        [Then(@"I can view the following budget classes;")]
+        public void ThenICanViewTheFollowingBudgetClasses(Table table)
+        {
             ScenarioContext.Current.Pending();
         }
 
-        [When("I press add")]
-        public void WhenIPressAdd()
+        [When(@"I add budget classes:")]
+        public void WhenIAddBudgetClasses(Table table)
         {
-            //TODO: implement act (action) logic
-
             ScenarioContext.Current.Pending();
         }
 
-        [Then("the result should be (.*) on the screen")]
-        public void ThenTheResultShouldBe(int result)
+        private T Resolve<T>()
         {
-            //TODO: implement assert (verification) logic
-          
-            ScenarioContext.Current.Pending();
+            return _scenarioContext.Get<ILifetimeScope>(nameof(BudgetHooks.Scope)).Resolve<T>();
         }
     }
 }

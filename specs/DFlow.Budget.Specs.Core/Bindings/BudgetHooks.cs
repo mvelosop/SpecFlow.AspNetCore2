@@ -11,7 +11,6 @@ namespace DFlow.Budget.Specs.Bindings
     {
         // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
 
-        private const string ConnectionString = "Server=localhost; Initial Catalog=SpecFlow.AspNetCore2.Specs; Trusted_Connection=True; MultipleActiveResultSets=true";
         private readonly ScenarioContext _scenarioContext;
 
         public BudgetHooks(
@@ -22,15 +21,11 @@ namespace DFlow.Budget.Specs.Bindings
 
         public static IContainer Container { get; private set; }
 
-        public static BudgetDbSetup DbSetup { get; private set; }
-
         public ILifetimeScope Scope { get; private set; }
 
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            DbSetup = ConfigureDabatase();
-
             var services = new ServiceCollection();
 
             ConfigureServices(services);
@@ -40,6 +35,8 @@ namespace DFlow.Budget.Specs.Bindings
             builder.Populate(services);
             ConfigureContainer(builder);
             Container = builder.Build();
+
+            ConfigureDabatase();
         }
 
         [AfterScenario]
@@ -75,21 +72,21 @@ namespace DFlow.Budget.Specs.Bindings
 
         private static void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new BudgetContainerModule(DbSetup));
+            builder.RegisterModule(new BudgetContainerModule());
         }
 
-        private static BudgetDbSetup ConfigureDabatase()
+        private static void ConfigureDabatase()
         {
-            var dbSetup = new BudgetDbSetup(ConnectionString);
+            var connectionString = "Server=localhost; Initial Catalog=SpecFlow.AspNetCore2.Specs; Trusted_Connection=True; MultipleActiveResultSets=true";
+
+            var dbSetup = new BudgetDbSetup(connectionString);
 
             dbSetup.ConfigureDatabase();
-
-            return dbSetup;
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            // TODO: Configure services
+            // TODO: Configure services 
         }
 
         private ILifetimeScope GetLifetimeScope()

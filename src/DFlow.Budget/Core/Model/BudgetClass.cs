@@ -14,26 +14,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DFlow.Budget.Core.Model
 {
-    public class BudgetClass
-    {
-        public BudgetClass()
-        {
-            BudgetLines = new HashSet<BudgetLine>();
-            TransactionType = TransactionType.Income;
-        }
+	public class BudgetClass
+	{
+		public BudgetClass()
+		{
+			BudgetLines = new HashSet<BudgetLine>();
+			TransactionType = TransactionType.Income;
+		}
 
-        public virtual ICollection<BudgetLine> BudgetLines { get; set; }
+		public virtual ICollection<BudgetLine> BudgetLines { get; set; }
 
-        public int Id { get; set; }
+		public int Id { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public virtual string Name { get; set; } // Key data ----------
+		[Required]
+		[MaxLength(100)]
+		public virtual string Name { get; set; } // Key data ----------
 
-        public virtual int Order { get; set; }
+		public virtual Byte[] RowVersion { get; set; }
 
-        public virtual Byte[] RowVersion { get; set; }
+		public virtual int SortOrder { get; set; }
 
-        public virtual TransactionType TransactionType { get; set; }
-    }
+		public virtual Tenant Tenant { get; set; }
+
+		public virtual int Tenant_Id { get; set; }
+
+		public virtual TransactionType TransactionType { get; set; }
+	}
 }

@@ -8,17 +8,16 @@
 //  Original author: Miguel
 //------------------------------------------------------------------------------
 
-using System;
 using DFlow.Budget.Core.Model;
 using DFlow.Budget.Data.Config;
 using Domion.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DFlow.Budget.Data.Services
 {
     public class BudgetDbContext : DbContext
     {
-
         public BudgetDbContext()
             : base()
         {
@@ -30,6 +29,8 @@ namespace DFlow.Budget.Data.Services
         }
 
         public virtual DbSet<BudgetClass> BudgetClasses { get; set; }
+
+        public virtual DbSet<Tenant> Tenants { get; set; }
 
         public override int SaveChanges()
         {
@@ -56,6 +57,7 @@ namespace DFlow.Budget.Data.Services
         /// <param name="modelBuilder"></param>
         private void ConfigureExternalModel(ModelBuilder modelBuilder)
         {
+            modelBuilder.AddConfiguration(new TenantConfiguration());
         }
 
         ///
@@ -65,7 +67,7 @@ namespace DFlow.Budget.Data.Services
             // Database schema is "Budget"
 
             modelBuilder.AddConfiguration(new BudgetClassConfiguration());
-			modelBuilder.AddConfiguration(new BudgetLineConfiguration());
+            modelBuilder.AddConfiguration(new BudgetLineConfiguration());
         }
     }
 }
