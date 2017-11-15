@@ -29,7 +29,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFlow.Budget.Specs", "specs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domion.Testing", "lib\Domion.Testing\Domion.Testing.csproj", "{919E90D8-CEF5-42D8-BE37-5A6767FDF349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domion.Lib", "lib\Domion.Lib\Domion.Lib.csproj", "{BC2D2D95-638E-4A60-BAED-7A0352E33819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domion.Lib", "lib\Domion.Lib\Domion.Lib.csproj", "{BC2D2D95-638E-4A60-BAED-7A0352E33819}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domion.Base", "lib\Domion.Base\Domion.Base.csproj", "{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{BC2D2D95-638E-4A60-BAED-7A0352E33819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC2D2D95-638E-4A60-BAED-7A0352E33819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC2D2D95-638E-4A60-BAED-7A0352E33819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{94DE7F8D-0954-404D-9AD7-18AE322EE979} = {FD20B4A5-CA5C-49CE-B96E-61AD79E7ED1D}
 		{919E90D8-CEF5-42D8-BE37-5A6767FDF349} = {3BFBF03D-1E2C-4117-8304-8E1061A971A8}
 		{BC2D2D95-638E-4A60-BAED-7A0352E33819} = {3BFBF03D-1E2C-4117-8304-8E1061A971A8}
+		{722F4BA0-4FA5-4BB9-AC1B-E8FDBE68A1E9} = {3BFBF03D-1E2C-4117-8304-8E1061A971A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5B9DC99-F0E5-4890-95B5-AE6720FCD706}

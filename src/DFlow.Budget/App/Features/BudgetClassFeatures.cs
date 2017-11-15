@@ -12,7 +12,9 @@ namespace DFlow.Budget.App.Features
 {
     public class BudgetClassFeatures
     {
-        public static readonly string DuplicateByNameError = @"There's another BudgetClass with Name ""{0}"", can't duplicate! (Id={1})";
+        public static readonly string BudgetClassDuplicateByNameError = @"There's another BudgetClass with Name ""{0}"", can't duplicate! (Id={1})";
+        public static readonly string BudgetItemDuplicateByNameError = @"There's more than one BudgetItem with Name ""{0}"", can't duplicate!";
+
         private readonly Lazy<BudgetDbContext> _lazyDbContext;
 
         public BudgetClassFeatures(
@@ -69,6 +71,12 @@ namespace DFlow.Budget.App.Features
 
         public async Task<List<ValidationResult>> ModifyBudgetClassAsync(BudgetClass entity)
         {
+            entity.Calculate();
+
+            var errors = await ValidateSaveAsync(entity);
+
+            if (errors.Any()) return errors;
+
             DbContext.Entry(entity).State = EntityState.Modified;
 
             await DbContext.SaveChangesAsync();
@@ -98,16 +106,21 @@ namespace DFlow.Budget.App.Features
             return NoError;
         }
 
-        private List<ValidationResult> Error(string message, params object[] values)
+        private ValidationResult Error(string message, params object[] values)
         {
-            return new List<ValidationResult> { new ValidationResult(string.Format(message, values)) };
+            return new ValidationResult(string.Format(message, values));
+        }
+
+        private List<ValidationResult> ErrorList(string message, params object[] values)
+        {
+            return new List<ValidationResult> { Error(message, values) };
         }
 
         private async Task<BudgetClass> FindDuplicateByNameAsync(BudgetClass entity)
         {
             IQueryable<BudgetClass> query = QueryBudgetClasses(bc => bc.Name == entity.Name);
 
-            if (entity.Id == 0)
+            if (entity.Id != 0)
             {
                 query = query.Where(bc => bc.Id != entity.Id);
             }
@@ -121,7 +134,18 @@ namespace DFlow.Budget.App.Features
 
             if (duplicateByName != null)
             {
-                return Error(DuplicateByNameError, duplicateByName.Name, duplicateByName.Id);
+                return ErrorList(BudgetClassDuplicateByNameError, duplicateByName.Name, duplicateByName.Id);
+            }
+
+            List<string> duplicateNames = entity.BudgetItems
+                .ToLookup(bi => bi.Name)
+                .Where(li => li.Count() > 1)
+                .Select(li => li.Key)
+                .ToList();
+
+            if (duplicateNames.Any())
+            {
+                return duplicateNames.Select(n => Error(BudgetItemDuplicateByNameError, n)).ToList();
             }
 
             return NoError;

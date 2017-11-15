@@ -45,6 +45,9 @@
     <Reference Include="Autofac.Extensions.DependencyInjection, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Autofac.Extensions.DependencyInjection.4.2.0\lib\netstandard1.1\Autofac.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.2.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.0.0-beta0003\lib\net451\FluentAssertions.dll</HintPath>
     </Reference>
@@ -220,7 +223,7 @@
     </Compile>
     <Compile Include="Helpers\BudgetClassData.cs" />
     <Compile Include="Helpers\BudgetItemData.cs" />
-    <Compile Include="Helpers\BudgetItemDataMapper.cs" />
+    <Compile Include="Helpers\BudgetItemMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,10 @@
     <Analyzer Include="..\..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\Domion.Base\Domion.Base.csproj">
+      <Project>{722f4ba0-4fa5-4bb9-ac1b-e8fdbe68a1e9}</Project>
+      <Name>Domion.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\lib\Domion.Testing\Domion.Testing.csproj">
       <Project>{919e90d8-cef5-42d8-be37-5a6767fdf349}</Project>
       <Name>Domion.Testing</Name>

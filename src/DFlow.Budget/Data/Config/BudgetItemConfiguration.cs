@@ -33,7 +33,7 @@ namespace DFlow.Budget.Data.Config
 
             // Indexes
 
-            builder.HasIndex(bl => bl.Name)
+            builder.HasIndex(bl => new { bl.BudgetClass_Id, bl.Name })
                 .IsUnique();
         }
     }

@@ -400,6 +400,225 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.6 - Update budget items")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.6 - Update budget items")]
+        public virtual void Scenario_1_6_UpdateBudgetItems()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.6 - Update budget items", ((string[])(null)));
+#line 108
+this.ScenarioSetup(scenarioInfo);
+#line 110
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table14.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table14.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table14.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 112
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table14, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                        "BudgetClass",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table15.AddRow(new string[] {
+                        "Housing",
+                        "Rent",
+                        "1",
+                        "1000"});
+            table15.AddRow(new string[] {
+                        "Housing",
+                        "Phone",
+                        "2",
+                        "62"});
+            table15.AddRow(new string[] {
+                        "Housing",
+                        "Electricity",
+                        "3",
+                        "44"});
+            table15.AddRow(new string[] {
+                        "Housing",
+                        "Water",
+                        "4",
+                        "8"});
+            table15.AddRow(new string[] {
+                        "Housing",
+                        "Cable",
+                        "5",
+                        "34"});
+#line 118
+    testRunner.And("I\'ve added the following budget items:", ((string)(null)), table15, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FindName",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table16.AddRow(new string[] {
+                        "Rent",
+                        "Rent - Updated Name",
+                        "1",
+                        "1000"});
+            table16.AddRow(new string[] {
+                        "Phone",
+                        "Phone - Updated SortOrder",
+                        "2",
+                        "62"});
+            table16.AddRow(new string[] {
+                        "Electricity",
+                        "Electricity - Updated BaseAmount",
+                        "4",
+                        "100"});
+            table16.AddRow(new string[] {
+                        "Water",
+                        "Water",
+                        "3",
+                        "8"});
+            table16.AddRow(new string[] {
+                        "",
+                        "Waste removal",
+                        "6",
+                        "10"});
+#line 126
+    testRunner.When("I update budget class \"Housing\" to this item list:", ((string)(null)), table16, "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount",
+                        "Percent"});
+            table17.AddRow(new string[] {
+                        "Rent - Updated Name",
+                        "1",
+                        "1000",
+                        "84,75"});
+            table17.AddRow(new string[] {
+                        "Phone - Updated SortOrder",
+                        "2",
+                        "62",
+                        "5,25"});
+            table17.AddRow(new string[] {
+                        "Electricity - Updated BaseAmount",
+                        "4",
+                        "100",
+                        "8,47"});
+            table17.AddRow(new string[] {
+                        "Water",
+                        "3",
+                        "8",
+                        "0,68"});
+            table17.AddRow(new string[] {
+                        "Waste removal",
+                        "6",
+                        "10",
+                        "0,85"});
+#line 134
+    testRunner.Then("I get the following budget items for class \"Housing\":", ((string)(null)), table17, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Scenario - 1.7 - Can\'t duplicate budget item names")]
+        [Xunit.TraitAttribute("FeatureTitle", "Feature - 1 - ManageBudgetClasses")]
+        [Xunit.TraitAttribute("Description", "Scenario - 1.7 - Can\'t duplicate budget item names")]
+        public virtual void Scenario_1_7_CantDuplicateBudgetItemNames()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Scenario - 1.7 - Can\'t duplicate budget item names", ((string[])(null)));
+#line 143
+this.ScenarioSetup(scenarioInfo);
+#line 145
+    testRunner.Given("we are working with a new scenario tenant context", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "SortOrder",
+                        "TransactionType"});
+            table18.AddRow(new string[] {
+                        "Income",
+                        "1",
+                        "Income"});
+            table18.AddRow(new string[] {
+                        "Housing",
+                        "2",
+                        "Expense"});
+            table18.AddRow(new string[] {
+                        "Food",
+                        "3",
+                        "Expense"});
+#line 147
+    testRunner.And("I\'ve added budget classes:", ((string)(null)), table18, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                        "BudgetClass",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table19.AddRow(new string[] {
+                        "Housing",
+                        "Rent",
+                        "1",
+                        "1000"});
+            table19.AddRow(new string[] {
+                        "Housing",
+                        "Phone",
+                        "2",
+                        "62"});
+#line 153
+    testRunner.And("I\'ve added the following budget items:", ((string)(null)), table19, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FindName",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table20.AddRow(new string[] {
+                        "Rent",
+                        "Rent",
+                        "1",
+                        "1000"});
+            table20.AddRow(new string[] {
+                        "Phone",
+                        "Rent",
+                        "2",
+                        "62"});
+#line 158
+    testRunner.Then("I can\'t update budget class \"Housing\" to duplicate names as of this item list:", ((string)(null)), table20, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+                        "FindName",
+                        "Name",
+                        "SortOrder",
+                        "BaseAmount"});
+            table21.AddRow(new string[] {
+                        "Rent",
+                        "Rent",
+                        "1",
+                        "1000"});
+            table21.AddRow(new string[] {
+                        "",
+                        "Rent",
+                        "2",
+                        "62"});
+#line 163
+    testRunner.Then("I can\'t update budget class \"Housing\" to duplicate names as of this item list:", ((string)(null)), table21, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.2.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

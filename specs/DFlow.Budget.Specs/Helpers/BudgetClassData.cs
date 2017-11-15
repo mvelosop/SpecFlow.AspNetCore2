@@ -1,4 +1,5 @@
-﻿using DFlow.Budget.Core.Model;
+﻿using System.Collections.Generic;
+using DFlow.Budget.Core.Model;
 
 namespace DFlow.Budget.Specs.Helpers
 {
@@ -11,5 +12,7 @@ namespace DFlow.Budget.Specs.Helpers
         public int SortOrder { get; set; }
 
         public TransactionType TransactionType { get; set; }
+
+        public List<BudgetItemData> BudgetItems { get; set; } = new List<BudgetItemData>();
     }
 }

@@ -52,7 +52,7 @@ namespace DFlow.Budget.Specs.Bindings
             foreach (BudgetClass budgetClass in entityList)
             {
                 var errors = await features.AddBudgetClassAsync(budgetClass);
-                errors.Should().ContainErrorMessage(BudgetClassFeatures.DuplicateByNameError);
+                errors.Should().ContainErrorMessage(BudgetClassFeatures.BudgetClassDuplicateByNameError);
             }
         }
 
@@ -92,6 +92,7 @@ namespace DFlow.Budget.Specs.Bindings
         }
 
         [When(@"I add the following budget items:")]
+        [Given(@"I've added the following budget items:")]
         public async Task WhenIAddTheFollowingBudgetItems(Table table)
         {
             var features = Resolve<BudgetClassFeatures>();
@@ -104,7 +105,7 @@ namespace DFlow.Budget.Specs.Bindings
 
                 budgetClass.Should().NotBeNull($@"because BudgetClass ""{group.Key}"" MUST exist");
 
-                var mapper = new BudgetItemDataMapper();
+                var mapper = new BudgetItemMapper();
 
                 var items = group.Select(bid => mapper.CreateEntity(bid));
 
@@ -148,6 +149,80 @@ namespace DFlow.Budget.Specs.Bindings
 
                 errors.Should().BeEmpty();
             }
+        }
+
+        [Then(@"I can't update budget class ""(.*)"" to duplicate names as of this item list:")]
+        public async Task ThenICanTUpdateBudgetClassToDuplicateNamesAsOfThisItemList(string className, Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            var budgetClass = await features.FindBudgetClassByNameAsync(className);
+            budgetClass.Should().NotBeNull();
+
+            var dataSet = table.CreateSet<BudgetItemData>();
+
+            var itemDict = budgetClass.BudgetItems.ToDictionary(bi => bi.Name);
+
+            var mapper = new BudgetItemMapper();
+
+            foreach (BudgetItemData data in dataSet)
+            {
+                if (itemDict.TryGetValue(data.FindName, out BudgetItem entity))
+                {
+                    mapper.UpdateEntity(data, entity);
+                    itemDict.Remove(data.FindName);
+                }
+                else
+                {
+                    entity = mapper.CreateEntity(data);
+                    budgetClass.BudgetItems.Add(entity);
+                }
+            }
+
+            foreach (var item in itemDict)
+            {
+                budgetClass.BudgetItems.Remove(item.Value);
+            }
+
+            var errors = await features.ModifyBudgetClassAsync(budgetClass);
+            errors.Should().ContainErrorMessage(BudgetClassFeatures.BudgetItemDuplicateByNameError);
+        }
+
+        [When(@"I update budget class ""(.*)"" to this item list:")]
+        public async Task WhenIUpdateBudgetClassToThisItemList(string className, Table table)
+        {
+            var features = Resolve<BudgetClassFeatures>();
+
+            var budgetClass = await features.FindBudgetClassByNameAsync(className);
+            budgetClass.Should().NotBeNull();
+
+            var dataSet = table.CreateSet<BudgetItemData>();
+
+            var itemDict = budgetClass.BudgetItems.ToDictionary(bi => bi.Name);
+
+            var mapper = new BudgetItemMapper();
+
+            foreach (BudgetItemData data in dataSet)
+            {
+                if (itemDict.TryGetValue(data.FindName, out BudgetItem entity))
+                {
+                    mapper.UpdateEntity(data, entity);
+                    itemDict.Remove(data.FindName);
+                }
+                else
+                {
+                    entity = mapper.CreateEntity(data);
+                    budgetClass.BudgetItems.Add(entity);
+                }
+            }
+
+            foreach (var item in itemDict)
+            {
+                budgetClass.BudgetItems.Remove(item.Value);
+            }
+
+            var errors = await features.ModifyBudgetClassAsync(budgetClass);
+            errors.Should().BeEmpty();
         }
 
         private async Task ArrangeScenarioTenantContext(string name)
